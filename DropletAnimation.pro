@@ -17,11 +17,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     dropletappearanimation.cpp \
+    dropletappearcollide.cpp \
+    dropletappeardrip.cpp \
+    dropletappeartop.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     dropletappearanimation.h \
+    dropletappearcollide.h \
+    dropletappeardrip.h \
+    dropletappeartop.h \
     mainwindow.h
 
 FORMS += \
