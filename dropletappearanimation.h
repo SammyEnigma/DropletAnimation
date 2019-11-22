@@ -23,8 +23,8 @@ class DropletAppearAnimation : public QObject
 {
     Q_OBJECT
 public:
-    static DropletAppearAnimation* startAnimation(QWidget* parent, QColor color, QLine appear_line, QRect target_rect, int target_radius = 0);
-    static DropletAppearAnimation* startAnimation(QWidget* parent, QColor color, QWidget* target_widget, int top_margin = 0, int target_radius = 0);
+    static DropletAppearAnimation* startAnimation(QWidget* parent, QColor color, QLine appear_line, int drip_height, QRect target_rect, int target_radius = 0);
+    static DropletAppearAnimation* startAnimation(QWidget* parent, QColor color, QWidget* target_widget, int top_margin = 0, int drip_height = 32, int target_radius = 0);
 
 private:
     DropletAppearAnimation(QObject *parent = nullptr);
