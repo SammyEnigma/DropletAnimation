@@ -20,44 +20,42 @@ void DropletAppearTop::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
+    QPoint left, right;
+
     // 出现动画：中间逐渐下移，两边逐渐收缩，显示弧线
     if (step == APPEAR)
     {
         // 获取滴落的宽度
-        QPoint left(width()/2*progress/100-drip_r, 0),
-               right(width() - width()/2*progress/100+drip_r, 0);
-
-        // 获取滴落的高度
-        int h = height() * progress / 100;
-        QPoint mid(width()/2, h);
-        QPoint mid_l(width()/2-drip_r, h);
-        QPoint mid_r(width()/2+drip_r, h);
-
-        // 计算控制点
-        QPoint ctrl_l((left.x() + width()/2)/2, 0);
-        QPoint ctrl_r((right.x()+width()/2)/2, 0);
-
-        // 计算路径
-        QPainterPath path;
-        path.moveTo(left);
-        path.quadTo(ctrl_l, mid);
-        path.quadTo(ctrl_r, right);
-        path.moveTo(left);
-
-        // 绘制背景
-        painter.fillPath(path, color);
-
-        painter.setPen(Qt::red);
-        painter.drawEllipse(left.x()-2, left.y()-2, 4, 4);
-        painter.drawEllipse(right.x()-2, right.y()-2, 4, 4);
-        painter.setPen(Qt::green);
-        painter.drawEllipse(ctrl_l.x()-2, ctrl_l.y()-2, 4, 4);
+        left = QPoint(width()/2*progress/100-drip_r, 0);
+        right = QPoint(width() - width()/2*progress/100+drip_r, 0);
     }
     // 消失动画：两边逐渐收缩至中间，消失
     else if (step == DISAPPEAR)
     {
-
+        // 获取滴落的宽度
+        left = QPoint(width()/2-drip_r, 0);
+        right = QPoint(width()/2+drip_r, 0);
     }
+
+    // 获取滴落的高度
+    int h = (height()-drip_r) * progress / 100;
+    QPoint mid(width()/2, h+drip_r);
+
+    // 计算控制点
+    QPoint ctrl_l1(left);
+    QPoint ctrl_l2(width()/2-drip_r, h+drip_r);
+    QPoint ctrl_r1(width()/2+drip_r, h+drip_r);
+    QPoint ctrl_r2( right);
+
+    // 计算路径
+    QPainterPath path;
+    path.moveTo( 0, 0);
+    path.cubicTo(ctrl_l1, ctrl_l2, mid);
+    path.cubicTo(ctrl_r1, ctrl_r2, QPoint(width(), 0));
+    path.lineTo(left);
+
+    // 绘制背景
+    painter.fillPath(path, color);
 }
 
 void DropletAppearTop::appear(int duration)
