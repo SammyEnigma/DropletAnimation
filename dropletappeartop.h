@@ -40,6 +40,7 @@ public slots:
 
 private:
     QColor color;
+    int drip_r;
     int progress;
     Step step;
 };

@@ -4,8 +4,8 @@ DropletAppearTop::DropletAppearTop(QWidget *parent, int left, int right, int top
     color(color), progress(0), step(APPEAR)
 {
     setGeometry(left, top, right-left, height);
+    drip_r = height/ 10+1;
     this->show();
-    qDebug() << "顶部" << geometry();
 }
 
 void DropletAppearTop::play(int duration)
@@ -24,24 +24,24 @@ void DropletAppearTop::paintEvent(QPaintEvent *event)
     if (step == APPEAR)
     {
         // 获取滴落的宽度
-        QPoint left(width()/2*progress/100, 0),
-               right(width() - width()/2*progress/100, 0);
+        QPoint left(width()/2*progress/100-drip_r, 0),
+               right(width() - width()/2*progress/100+drip_r, 0);
 
         // 获取滴落的高度
         int h = height() * progress / 100;
         QPoint mid(width()/2, h);
+        QPoint mid_l(width()/2-drip_r, h);
+        QPoint mid_r(width()/2+drip_r, h);
 
         // 计算控制点
-        QPoint ctrl_l1(0, 0);
-        QPoint ctrl_l2((left.x() + width()/2)/2, 0);
-        QPoint ctrl_r1((right.x()+width()/2)/2, 0);
-        QPoint ctrl_r2(width(), 0);
+        QPoint ctrl_l((left.x() + width()/2)/2, 0);
+        QPoint ctrl_r((right.x()+width()/2)/2, 0);
 
         // 计算路径
         QPainterPath path;
         path.moveTo(left);
-        path.cubicTo(ctrl_l1, ctrl_l2, mid);
-        path.cubicTo(ctrl_r1, ctrl_r2, right);
+        path.quadTo(ctrl_l, mid);
+        path.quadTo(ctrl_r, right);
         path.moveTo(left);
 
         // 绘制背景
@@ -51,43 +51,12 @@ void DropletAppearTop::paintEvent(QPaintEvent *event)
         painter.drawEllipse(left.x()-2, left.y()-2, 4, 4);
         painter.drawEllipse(right.x()-2, right.y()-2, 4, 4);
         painter.setPen(Qt::green);
-        painter.drawEllipse(ctrl_l1.x()-2, ctrl_l1.y()-2, 4, 4);
-        painter.drawEllipse(ctrl_l2.x()-2, ctrl_l2.y()-2, 4, 4);
-
+        painter.drawEllipse(ctrl_l.x()-2, ctrl_l.y()-2, 4, 4);
     }
     // 消失动画：两边逐渐收缩至中间，消失
     else if (step == DISAPPEAR)
     {
-        // 获取滴落的宽度
-        QPoint left(width()/2-1, 0),
-               right(width()/2+1, 0);
 
-        // 获取滴落的高度
-        int h = height() * progress / 100;
-        QPoint mid(width()/2, h);
-
-        // 计算控制点
-        QPoint ctrl_l1(0, 0);
-        QPoint ctrl_l2((left.x() + width()/2)/2, 0);
-        QPoint ctrl_r1((right.x()+width()/2)/2, 0);
-        QPoint ctrl_r2(width(), 0);
-
-        // 计算路径
-        QPainterPath path;
-        path.moveTo(left);
-        path.cubicTo(ctrl_l1, ctrl_l2, mid);
-        path.cubicTo(ctrl_r1, ctrl_r2, right);
-        path.moveTo(left);
-
-        // 绘制背景
-        painter.fillPath(path, color);
-
-        painter.setPen(Qt::red);
-        painter.drawEllipse(left.x()-2, left.y()-2, 4, 4);
-        painter.drawEllipse(right.x()-2, right.y()-2, 4, 4);
-        painter.setPen(Qt::green);
-        painter.drawEllipse(ctrl_l1.x()-2, ctrl_l1.y()-2, 4, 4);
-        painter.drawEllipse(ctrl_l2.x()-2, ctrl_l2.y()-2, 4, 4);
     }
 }
 

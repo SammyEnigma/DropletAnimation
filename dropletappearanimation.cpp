@@ -7,12 +7,11 @@ DropletAppearAnimation *DropletAppearAnimation::startAnimation(QWidget *parent, 
 
 DropletAppearAnimation *DropletAppearAnimation::startAnimation(QWidget *parent, QColor color, QWidget *target_widget, int top_margin, int drip_height, int target_radius)
 {
-    qDebug() << "开始动画";
     QRect target_rect = target_widget->geometry();
     DropletAppearTop* top = new DropletAppearTop(parent, target_rect.left(), target_rect.right(), top_margin, drip_height, color);
 
 
-    top->play(300);
+    top->play(3000);
 }
 
 DropletAppearAnimation::DropletAppearAnimation(QObject *parent) : QObject(parent)
