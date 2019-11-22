@@ -21,5 +21,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    DropletAppearAnimation::startAnimation(this, Qt::blue, label1, 0, 200, 10);
+    DropletAppearAnimation::startAnimation(this, Qt::blue, label1, 0, 32, 10);
 }

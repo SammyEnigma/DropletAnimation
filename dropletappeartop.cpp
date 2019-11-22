@@ -22,30 +22,28 @@ void DropletAppearTop::paintEvent(QPaintEvent *event)
 
     QPoint left, right;
 
-    // 出现动画：中间逐渐下移，两边逐渐收缩，显示弧线
     if (step == APPEAR)
     {
-        // 获取滴落的宽度
+        // 获取滴落的控制点位置
         left = QPoint(width()/2*progress/100-drip_r, 0);
         right = QPoint(width() - width()/2*progress/100+drip_r, 0);
     }
-    // 消失动画：两边逐渐收缩至中间，消失
     else if (step == DISAPPEAR)
     {
-        // 获取滴落的宽度
+        // 固定滴落的控制点位置为上阶段动画的结果
         left = QPoint(width()/2-drip_r, 0);
         right = QPoint(width()/2+drip_r, 0);
     }
 
-    // 获取滴落的高度
-    int h = (height()-drip_r) * progress / 100;
-    QPoint mid(width()/2, h+drip_r);
+    // 获取滴落的高度和中心点
+    int h = height() * progress / 100;
+    QPoint mid(width()/2, h);
 
     // 计算控制点
-    QPoint ctrl_l1(left);
-    QPoint ctrl_l2(width()/2-drip_r, h+drip_r);
-    QPoint ctrl_r1(width()/2+drip_r, h+drip_r);
-    QPoint ctrl_r2( right);
+    QPoint ctrl_l1(width()/2-drip_r, 0);
+    QPoint ctrl_l2(width()/2-drip_r, h);
+    QPoint ctrl_r1(width()/2+drip_r, h);
+    QPoint ctrl_r2(width()/2+drip_r, 0);
 
     // 计算路径
     QPainterPath path;

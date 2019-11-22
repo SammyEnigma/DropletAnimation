@@ -12,6 +12,8 @@
 #include "dropletappeardrip.h"
 #include "dropletappearcollide.h"
 
+#define TOP_LINE_MAX_PROG 10
+
 /**
  * 水滴出现动画工具类
  * 阶段一：顶部水滴即将滴落
